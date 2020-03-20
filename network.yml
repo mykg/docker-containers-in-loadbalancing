@@ -1,0 +1,5 @@
+- hosts: localhost
+  tasks:
+    - name: create a network
+      docker_network:
+        name: web

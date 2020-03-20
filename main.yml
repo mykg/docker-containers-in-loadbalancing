@@ -1,0 +1,35 @@
+- hosts: localhost
+  tasks:
+
+   - name: container 1 containing webpage
+     docker_container:
+       name: web1
+       image: mykgod/centos7lb:test
+       networks:
+         - name: "{{ a }}" 
+           aliases: "{{ b }}"
+       interactive: yes
+       tty: yes
+
+   - name: container 2 containing webpage
+     docker_container:
+       name: web2
+       image: mykgod/centos7lb:test
+       networks:
+          - name: "{{ a }}"
+            aliases: "{{ b }}"
+       interactive: yes
+       tty: yes
+   
+   - name: client container
+     docker_container:
+       name: client
+       image: centos:7
+       state: started
+       interactive: yes
+       tty: yes
+       network_mode: "{{ a }}"
+
+  vars:
+    a: web
+    b: webpage
